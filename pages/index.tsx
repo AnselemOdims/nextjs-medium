@@ -9,27 +9,43 @@ import { client, urlFor } from '../sanity';
 import { Props } from '../typings';
 import Card from '../components/Card';
 
-
 const Home = ({ posts }: Props) => {
-	console.log(posts)
 	return (
-		<div className=''>
+		<div className='' style={{ background: "#F7F7F8"}}>
 			<Head>
 				<title>Create Next App</title>
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<Header />
-			<main >
+			<main>
 				<Banner />
-				{posts && posts.map(post => (
-					<Link href={`/post/${post.slug.current}`} key={post._id}>
-						<Card 
-							postImg={urlFor(post.mainImage)?.url()}
-							author={post.author.name}
-							title={post.title}
-						/>
-					</Link>
-				))}
+				<div className='grid gap-x-5 gap-y-10 grid-cols-1 lg:grid-cols-3 md:grid-cols-2 mx-auto my-3 md:max-w-2xl lg:max-w-4xl'>
+					{posts &&
+						posts.map((post) => (
+							<>
+								<Link href={`/post/${post.slug.current}`} key={post._id} passHref>
+									<a>
+										<Card
+											postImg={urlFor(post.mainImage)?.url()}
+											author={post.author.name}
+											title={post.title}
+											slug={post.slug.current}
+										/>
+									</a>
+								</Link>		
+								<Link href={`/post/${post.slug.current}`} key={post._id} passHref>
+								<a>
+									<Card
+										postImg={urlFor(post.mainImage)?.url()}
+										author={post.author.name}
+										title={post.title}
+										slug={post.slug.current}
+									/>
+								</a>
+							</Link>	
+						</>			
+						))}
+				</div>
 			</main>
 		</div>
 	);
@@ -37,7 +53,8 @@ const Home = ({ posts }: Props) => {
 
 export const getServerSideProps = async () => {
 	const query = `
-		*[_type == 'post']{
+		*[_type == 'post']
+		{
 			_id,
 			title,
 			description,
@@ -52,15 +69,16 @@ export const getServerSideProps = async () => {
 			publishedAt,
 			body
 		}
-	`
+	`;
 
 	const posts = await client.fetch(query);
+	console.log(posts);
 
 	return {
 		props: {
-			posts
-		}
-	}
-}
+			posts,
+		},
+	};
+};
 
 export default Home;
