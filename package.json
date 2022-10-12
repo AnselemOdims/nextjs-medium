@@ -8,6 +8,7 @@
     "prebuild": "echo 'Building Sanity to public/nextytcourse' && cd nextytcourse && yarn && npx @sanity/cli build ../public/nextytcourse -y && echo 'Done'"
   },
   "dependencies": {
+    "@sanity/image-url": "^1.0.1",
     "next": "latest",
     "next-sanity": "^0.8.4",
     "react": "18.1.0",

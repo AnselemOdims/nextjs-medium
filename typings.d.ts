@@ -16,15 +16,15 @@ export interface PostInterface {
         text: string
       }[]
     }[];
-    mainImage: {
-      asset: {
-        _ref: string
-      }
-    };
-    description: string;
-    publishedAt: datetime;
-    body: string
   }
+  mainImage: {
+    asset: {
+      _ref: string
+    }
+  };
+  description: string;
+  publishedAt: datetime;
+  body: string
 }
 
 export interface Props {

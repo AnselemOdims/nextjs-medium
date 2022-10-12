@@ -1,11 +1,13 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import React from 'react';
+import Link from 'next/link';
 
 import Banner from '../components/banner';
 import Header from '../components/header';
-import { client } from '../sanity';
+import { client, urlFor } from '../sanity';
 import { Props } from '../typings';
+import Card from '../components/Card';
 
 
 const Home = ({ posts }: Props) => {
@@ -17,9 +19,18 @@ const Home = ({ posts }: Props) => {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<Header />
-			{/* <main > */}
+			<main >
 				<Banner />
-			{/* </main> */}
+				{posts && posts.map(post => (
+					<Link href={`/post/${post.slug.current}`} key={post._id}>
+						<Card 
+							postImg={urlFor(post.mainImage)?.url()}
+							author={post.author.name}
+							title={post.title}
+						/>
+					</Link>
+				))}
+			</main>
 		</div>
 	);
 };
@@ -36,9 +47,7 @@ export const getServerSideProps = async () => {
 				image,
 				bio
 			},
-			mainImage -> {
-				asset
-			},
+			mainImage,
 			categories,
 			publishedAt,
 			body
