@@ -8,12 +8,13 @@ import Header from '../components/header';
 import { client, urlFor } from '../sanity';
 import { Props } from '../typings';
 import Card from '../components/Card';
+import { queryAllPosts } from '../utils/query'
 
 const Home = ({ posts }: Props) => {
 	return (
 		<div className='' style={{ background: "#F7F7F8"}}>
 			<Head>
-				<title>Create Next App</title>
+				<title>Medium Blog App</title>
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<Header />
@@ -27,22 +28,12 @@ const Home = ({ posts }: Props) => {
 									<a>
 										<Card
 											postImg={urlFor(post.mainImage)?.url()}
-											author={post.author.name}
+											author={post.author}
 											title={post.title}
 											slug={post.slug.current}
 										/>
 									</a>
 								</Link>		
-								<Link href={`/post/${post.slug.current}`} key={post._id} passHref>
-								<a>
-									<Card
-										postImg={urlFor(post.mainImage)?.url()}
-										author={post.author.name}
-										title={post.title}
-										slug={post.slug.current}
-									/>
-								</a>
-							</Link>	
 						</>			
 						))}
 				</div>
@@ -52,27 +43,7 @@ const Home = ({ posts }: Props) => {
 };
 
 export const getServerSideProps = async () => {
-	const query = `
-		*[_type == 'post']
-		{
-			_id,
-			title,
-			description,
-			slug,
-			author -> {
-				name,
-				image,
-				bio
-			},
-			mainImage,
-			categories,
-			publishedAt,
-			body
-		}
-	`;
-
-	const posts = await client.fetch(query);
-	console.log(posts);
+	const posts = await client.fetch(queryAllPosts);
 
 	return {
 		props: {

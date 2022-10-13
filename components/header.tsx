@@ -5,7 +5,7 @@ import Logo from '../public/medium.svg';
 
 const Header= () => {
   return ( 
-    <header className="flex items-center justify-between p-5 mx-auto  md:max-w-2xl lg:max-w-4xl lg:px-0">
+    <header className="flex items-center justify-between px-5 py-1 mx-auto  md:max-w-2xl lg:max-w-4xl lg:px-0">
       <div className="flex items-center space-x-5">
         <Link href="/" >
           <Image 
